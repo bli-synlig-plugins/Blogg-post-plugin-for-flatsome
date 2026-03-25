@@ -1,0 +1,118 @@
+.group {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.filter {
+    margin-top: 10px;
+    padding-left: 15px;
+}
+
+
+.acf-filter-wrap{
+    margin: 2rem 1rem;
+}
+
+.acf-filter-button{
+    padding: .75rem .75rem;
+    border-radius: 10px;
+    background-color: #1447e6;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+    gap: .5rem;
+    cursor: pointer;
+}
+.acf-filter-button:hover{
+    background-color: #0f36b8;
+    text-decoration: none;
+}
+
+#acf-builder{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 1.25rem 0;
+    gap: 1.25rem;
+}
+
+.acf-filter-item{
+    background: #fff;
+    border: 1px solid #e4e4e7;
+    border-radius: 20px;
+    padding: 1.25rem;
+    box-shadow: rgba(0, 0, 0, .05) 0px 1px 2px 0px;
+}
+
+.acf-filter-item .acf-filter-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.acf-filter-item .acf-filter-header button.acf-filter-button.remove-filter{
+    min-height: 30px;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    transition: .15s;
+}
+.acf-filter-item .acf-filter-header button.acf-filter-button.remove-filter:hover{
+    color: red;
+    background-color: #f0f0f0;
+}
+
+.acf-filter-label-fields{
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-block: 1rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+.acf-filter-label-fields .acf-filter-label-fields__fields{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .75rem;
+}
+.acf-filter-label-fields label{
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    font-size: .95em !important;
+    font-weight: 400 !important;
+    color: #666;
+}
+
+.acf-filter-item label, .acf-filter-item legend{
+    font-size: 1rem;
+    font-weight: 500;
+}
+.acf-filter-label, 
+.acf-filter-label.tax-selector-wrap label{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.acf-filter-settings{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.acf-filter-item label input, .acf-filter-item label select{
+    padding: 0 .75rem;
+    line-height: 44px;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+}
+.acf-filter-item label select{
+    padding-right: 1.75rem;
+}

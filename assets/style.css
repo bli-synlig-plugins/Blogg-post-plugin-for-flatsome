@@ -1,0 +1,190 @@
+
+#acf-results .acf-posts-grid{
+    display: grid;
+}
+/* Base (mobil først) */
+#acf-results .acf-posts-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(1, 1fr);
+  
+  &.sm-columns-1{
+    grid-template-columns: repeat(1, 1fr);
+  }
+  &.sm-columns-2{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &.sm-columns-3{
+    grid-template-columns: repeat(3, 1fr);
+  }
+  &.sm-columns-4{
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet */
+@media (min-width: 550px) {
+  #acf-results .acf-posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #acf-results .acf-posts-grid.sm-columns-1{
+    grid-template-columns: repeat(1, 1fr);
+  }
+  #acf-results .acf-posts-grid.md-columns-2{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #acf-results .acf-posts-grid.md-columns-3{
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #acf-results .acf-posts-grid.md-columns-4{
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 850px) {
+  #acf-results .acf-posts-grid{
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #acf-results .acf-posts-grid.columns-1 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  #acf-results .acf-posts-grid.columns-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #acf-results .acf-posts-grid.columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #acf-results .acf-posts-grid.columns-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+
+.acf-results-simple .acf-posts-grid {
+    gap: 1.5rem;
+}
+.acf-results-card .acf-posts-grid {
+    gap: 1rem;
+}
+
+.acf-post-item {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.acf-results-card .acf-post-item{
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+.acf-results-card .acf-post-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Bilde */
+.acf-results-simple .acf-post-image img, .acf-results-simple .acf-post-image-placeholder {
+    border-radius: 12px;
+}
+.acf-post-image img, .acf-post-image-placeholder {
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 9 / 6;
+  background-color: #f0f0f0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Innhold */
+.acf-results-simple .acf-post-item .acf-post-content{
+    padding: 1rem 0;
+}
+.acf-results-card .acf-post-item .acf-post-content {
+    padding: 1rem 1.2rem 1.4rem;
+}
+.acf-post-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Meta info */
+.acf-post-meta {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-weight: 500;
+}
+.acf-post-meta .acf-post-meta-top{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+.acf-post-meta .acf-post-meta-top .acf-post-author{
+    color: var(--fs-color-primary, #66a749)
+}
+.acf-post-meta .acf-post-meta-top span::after {
+  content: "•";
+  margin-left: 0.25rem;
+}
+.acf-post-meta .acf-post-meta-top span:last-child::after {
+  content: "";
+}
+
+.acf-post-meta .acf-post-meta-bottom{
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: .75rem;
+}
+.acf-post-meta .acf-post-meta-bottom .acf-post-tax .acf-post-tax-term, 
+.acf-post-meta .acf-post-meta-bottom .acf-post-categories .acf-post-tax-term{
+    background-color: #f0f0f0;
+    color: #555;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    margin-right: .5rem;
+}
+
+
+/* Tittel */
+.acf-post-title {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.acf-post-title a {
+  text-decoration: none;
+  color: #111;
+}
+
+.acf-post-title a:hover, .acf-post-image {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* Utdrag */
+.acf-post-excerpt {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Knapp */
+.button.outline {
+  margin: 0;
+  padding: .25rem 1.25rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+  font-size: 1rem;
+}
+
+

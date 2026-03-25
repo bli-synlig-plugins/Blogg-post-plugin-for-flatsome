@@ -1,0 +1,541 @@
+/* ============================================================
+   BASE
+   ============================================================ */
+
+.acf-filter-form *,
+.acf-filter-form *::before,
+.acf-filter-form *::after {
+    box-sizing: border-box;
+}
+
+.acf-filter-group {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Legend */
+.acf-filter-group__legend {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #000000;
+    padding: 0.25rem 0.625rem;
+    border: none;
+    background: none;
+    margin: 0;
+}
+
+/* Arrow — hidden by default (no accordion) */
+.acf-filter-group__arrow {
+    display: none;
+}
+
+/* Options — always visible */
+.acf-filter-group__options {
+    max-height: none;
+    opacity: 1;
+    overflow: visible;
+}
+
+/* Checkbox / Radio option */
+.acf-filter-option {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: .6rem;
+    align-items: center;
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    min-height: 44px;
+    min-width: 44px;
+    border-radius: 11px;
+    border: 2px solid rgba(0, 0, 0, 0);
+    user-select: none;
+}
+
+.acf-filter-option:hover {
+    background: #f5f5f5;
+}
+
+.acf-filter-option__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Custom checkbox box */
+.acf-filter-option__box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+
+input[type="radio"] ~ .acf-filter-option__box {
+    border-radius: 50%;
+}
+
+.acf-filter-option__input:checked ~ .acf-filter-option__box {
+    background: var(--fs-primary, #66a749);
+    border-color: var(--fs-primary, #66a749);
+}
+
+/* Checkmark */
+.acf-filter-option__input:checked ~ .acf-filter-option__box::after {
+    content: '';
+    display: block;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGVjay1pY29uIGx1Y2lkZS1jaGVjayI+PHBhdGggZD0iTTIwIDYgOSAxN2wtNS01Ii8+PC9zdmc+);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+/* Radio dot */
+input[type="radio"].acf-filter-option__input:checked ~ .acf-filter-option__box::after {
+    width: 6px;
+    height: 6px;
+    border: none;
+    background: #fff;
+    border-radius: 50%;
+    transform: none;
+}
+
+.acf-filter-option__label {
+    line-height: 1.4;
+}
+
+/* Select */
+.acf-filter-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 15px;
+    background: #ffffff;
+    font-size: 0.9rem;
+    color: #000000;
+    
+    appearance: none;
+    outline: none;
+    transition: border-color .15s ease;
+    min-height: 100px;
+}
+
+.acf-filter-select:focus {
+    border-color: #66a749;
+}
+
+/* ============================================================
+   SIDEBAR VARIANT
+   ============================================================ */
+
+.acf-filter-sidebar-wrap {
+    width: 100%;
+}
+
+.acf-filter--sidebar .acf-filter-group {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.acf-filter--sidebar .acf-filter-group:last-child {
+    border-bottom: none;
+}
+
+/* ============================================================
+   TOPBAR VARIANT
+   ============================================================ */
+
+.acf-filter-topbar-wrap {
+    width: 100%;
+}
+
+.acf-filter--topbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.acf-filter--topbar .acf-filter-group {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.acf-filter--topbar .acf-filter-group__legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 100px;
+    background: #ffffff;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    white-space: nowrap;
+}
+
+.acf-filter--topbar .acf-filter-group__legend:hover {
+    border-color: #66a749;
+}
+
+.acf-filter--topbar .acf-filter-group.is-open .acf-filter-group__legend {
+    border-color: #66a749;
+    background: #66a749;
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+/* Show arrow only in topbar */
+.acf-filter--topbar .acf-filter-group__arrow {
+    display: flex;
+    align-items: center;
+    color: var(--acf-color-text-muted);
+    transition: transform .15s ease;
+    flex-shrink: 0;
+}
+
+.acf-filter--topbar .acf-filter-group.is-open .acf-filter-group__arrow {
+    transform: rotate(180deg);
+    color: #fff;
+}
+
+/* Dropdown panel */
+.acf-filter--topbar .acf-filter-group__options {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 100;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    min-width: 200px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    transition: max-height 0.25s ease, opacity 0.2s ease, padding 0.2s ease;
+}
+
+.acf-filter--topbar .acf-filter-group.is-open .acf-filter-group__options {
+    max-height: 400px;
+    opacity: 1;
+    padding: 4px;
+    overflow-y: auto;
+}
+
+/* ============================================================
+   OFFCANVAS VARIANT
+   ============================================================ */
+
+/* Trigger button */
+.acf-filter-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #66a749;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.acf-filter-trigger:hover {
+    background: #66a749;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
+}
+
+/* Hamburger icon */
+.acf-filter-trigger-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 16px;
+}
+
+.acf-filter-trigger-icon span {
+    display: block;
+    height: 1.5px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform .15s ease, opacity .15s ease, width .15s ease;
+}
+
+.acf-filter-trigger-icon span:nth-child(2) {
+    width: 70%;
+}
+
+.acf-filter-trigger[aria-expanded="true"] .acf-filter-trigger-icon span:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+}
+.acf-filter-trigger[aria-expanded="true"] .acf-filter-trigger-icon span:nth-child(2) {
+    opacity: 0;
+    width: 0;
+}
+.acf-filter-trigger[aria-expanded="true"] .acf-filter-trigger-icon span:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
+}
+
+/* Active filter count badge */
+.acf-filter-count {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    background: #fff;
+    color: #66a749;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.acf-filter-count.has-filters {
+    display: inline-flex;
+}
+
+/* Overlay */
+.acf-filter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.acf-filter-overlay.is-active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Panel */
+.acf-offcanvas-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--acf-offcanvas-width);
+    max-width: 100vw;
+    background: #ffffff;
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--acf-shadow-lg);
+    padding-top: var(--flatsome-scroll-padding-top, 120px);
+    min-width: 350px;
+}
+
+.acf-offcanvas-panel.is-open {
+    transform: translateX(0);
+}
+
+/* Panel header */
+.acf-offcanvas-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+    flex-shrink: 0;
+}
+
+.acf-offcanvas-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 50%;
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #000000;
+    transition: background .15s ease, border-color .15s ease;
+    line-height: 1;
+    margin: 0;
+}
+
+.acf-offcanvas-close:hover {
+    background: var(--acf-color-surface);
+    border-color: #000000;
+}
+
+/* Scrollable form area */
+.acf-filter--offcanvas {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.acf-filter--offcanvas .acf-filter-group {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+.acf-filter--offcanvas .acf-filter-group:first-of-type legend{
+    padding-top: 1.25rem;
+}
+.acf-filter--offcanvas .acf-filter-group:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.acf-offcanvas-body{
+    overflow-y: auto;
+    padding: 0 24px;
+    overscroll-behavior: contain;
+}
+
+/* Panel footer */
+.acf-offcanvas-footer {
+    display: flex;
+    gap: 10px;
+    padding: 1rem 0;
+    border-top: 1px solid #e5e5e5;
+    padding: 1rem 1.5rem;
+}
+.acf-offcanvas-footer button{
+    border-radius: 12px;
+    margin: 0;
+}
+.acf-filter-reset {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: 1.5px solid #e5e5e5;
+    font-size: 0.875rem;
+    cursor: pointer;
+    color: var(--acf-color-text-muted);
+    transition: border-color .15s ease, color .15s ease;
+}
+
+.acf-filter-reset:hover {
+    border-color: #f5f5f5;
+    background: #f5f5f5;
+    color: #000000;
+}
+
+.acf-offcanvas-apply {
+    flex: 2;
+}
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+
+.acf-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.acf-pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: #000000;
+    text-decoration: none;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+
+.acf-pagination .page-numbers:hover,
+.acf-pagination .page-numbers.current {
+    background: #66a749;
+    border-color: #66a749;
+    color: #fff;
+}
+
+.acf-pagination .page-numbers.dots {
+    border-color: transparent;
+    pointer-events: none;
+}
+
+/* ============================================================
+   STATES
+   ============================================================ */
+
+.acf-no-results {
+    padding: 40px;
+    text-align: center;
+    color: var(--acf-color-text-muted);
+    font-size: 0.9rem;
+}
+
+#acf-results {
+    transition: opacity 0.2s ease;
+}
+
+#acf-results.is-loading {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ============================================================
+   RESPONSIV SYNLIGHET
+   ============================================================ */
+
+@media (min-width: 550px) and (max-width: 850px) {
+    .acf-hide--md {
+        display: none !important;
+    }
+}
+
+@media (max-width: 550px) {
+    .acf-hide--sm {
+        display: none !important;
+    }
+}
+@media (min-width: 850px) {
+    .acf-hide--lg {
+        display: none !important;
+    }
+}
