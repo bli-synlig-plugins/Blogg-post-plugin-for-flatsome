@@ -3,7 +3,7 @@
  * Plugin Name: Blogg filter (ACF + Polylang)
  * Description: AJAX filter for blog posts using ACF + Polylang
  * Author: Benjamin Pedersen | Bli Synlig AS
- * Version: 1.0.4
+ * Version: 1.0.5
  */
 
 if (!defined('ABSPATH')) exit;
@@ -78,6 +78,7 @@ add_action('plugins_loaded', function () {
     require_once plugin_dir_path(__FILE__) . 'includes/class-render.php';
     require_once plugin_dir_path(__FILE__) . 'includes/class-sync.php';
     require_once plugin_dir_path(__FILE__) . 'includes/class-ux-element.php';
+    require_once plugin_dir_path(__FILE__) . 'includes/class-sync-toggle.php';
 
     add_shortcode('acf_filter', ['ACF_Filter_Render', 'form']);
     add_shortcode('acf_filter_results', ['ACF_Filter_Render', 'results']);

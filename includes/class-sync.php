@@ -29,6 +29,8 @@ class ACF_Filter_Sync {
         $other_languages = array_diff($all_languages, [$current_lang]);
         if (empty($other_languages)) return;
 
+        if (ACF_Filter_Sync_Toggle::is_disabled($post_id)) return;
+
         // Hent eksisterende speil fra vår egen meta – mer pålitelig enn Polylang
         $existing_mirrors = get_post_meta($post_id, self::META_KEY, false);
 
@@ -97,6 +99,8 @@ class ACF_Filter_Sync {
         $mirror_ids = get_post_meta($post_id, self::META_KEY, false);
         if (empty($mirror_ids)) return;
 
+        if (ACF_Filter_Sync_Toggle::is_disabled($post_id)) return;
+
         remove_action('save_post', [__CLASS__, 'on_save'], 99);
 
         foreach ($mirror_ids as $mirror_id) {
@@ -131,6 +135,8 @@ class ACF_Filter_Sync {
             'post_status'  => 'publish',
             'post_type'    => 'post',
             'post_author'  => $source_post->post_author,
+            'post_date'    => $source_post->post_date,
+            'post_date_gmt' => get_gmt_from_date($source_post->post_date),
         ]);
 
         if (is_wp_error($mirror_id)) {
@@ -154,6 +160,9 @@ class ACF_Filter_Sync {
             'post_content' => $source_post->post_content,
             'post_excerpt' => $source_post->post_excerpt,
             'post_status'  => 'publish',
+            'post_date'    => $source_post->post_date,
+            'post_date_gmt' => get_gmt_from_date($source_post->post_date),
+
         ]);
 
         self::sync_thumbnail($source_id, $mirror_id);
