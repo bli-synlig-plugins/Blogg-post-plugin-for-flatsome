@@ -4,17 +4,16 @@ if (!defined('ABSPATH')) exit;
 
 class ACF_Filter_Query {
 
-    public static function build($current_lang = '') {
+    public static function build($current_lang = '', $posts_per_page = 10) {
 
         $config         = get_option('acf_filter_config', []);
         $filters_config = json_decode($config['filters'] ?? '[]', true);
 
-        // Bruk sendt språk, ikke hent det selv
         $lang_arg = $current_lang !== '' ? $current_lang : '';
 
         $args = [
             'post_type'      => 'post',
-            'posts_per_page' => 10,
+            'posts_per_page' => (int) $posts_per_page,
             'lang'           => $lang_arg,
         ];
 

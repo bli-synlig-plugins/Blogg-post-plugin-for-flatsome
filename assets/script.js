@@ -1,34 +1,23 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    function getActiveForm() {
-        const forms = document.querySelectorAll('[data-filter-form]');
-        for (const f of forms) {
-            // Returner synlig form
-            if (f.offsetParent !== null) return f;
-        }
-        return forms[0] || null;
-    }
-
-    const form    = getActiveForm();
-    
     const results = document.getElementById('acf-results');
+    if (!results) return;
+
+    const atts        = results.dataset.atts ? JSON.parse(results.dataset.atts) : {};
+    const currentLang = results.dataset.lang || '';
 
     // ─── TOPBAR DROPDOWN ──────────────────────────────────────
     document.querySelectorAll('.acf-filter--topbar .acf-filter-group__legend').forEach(legend => {
         legend.addEventListener('click', function (e) {
             e.stopPropagation();
             const group = this.closest('.acf-filter-group');
-
-            // Lukk andre grupper
             document.querySelectorAll('.acf-filter--topbar .acf-filter-group').forEach(g => {
                 if (g !== group) g.classList.remove('is-open');
             });
-
             group.classList.toggle('is-open');
         });
     });
 
-    // Lukk topbar dropdown ved klikk utenfor — men ikke ved klikk inne i panel
     document.addEventListener('click', function (e) {
         if (!e.target.closest('.acf-filter--topbar .acf-filter-group')) {
             document.querySelectorAll('.acf-filter--topbar .acf-filter-group')
@@ -36,11 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Hindre at klikk inne i dropdown lukker den
     document.querySelectorAll('.acf-filter--topbar .acf-filter-group__options').forEach(panel => {
-        panel.addEventListener('click', function (e) {
-            e.stopPropagation();
-        });
+        panel.addEventListener('click', e => e.stopPropagation());
     });
 
     // ─── OFFCANVAS ────────────────────────────────────────────
@@ -69,27 +55,31 @@ document.addEventListener('DOMContentLoaded', function () {
     trigger?.addEventListener('click', openOffcanvas);
     closeBtn?.addEventListener('click', closeOffcanvas);
     overlay?.addEventListener('click', closeOffcanvas);
-    applyBtn?.addEventListener('click', () => { closeOffcanvas(); if (form) update(); });
+    applyBtn?.addEventListener('click', () => { closeOffcanvas(); update(1); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOffcanvas(); });
 
     // ─── FILTER COUNT ─────────────────────────────────────────
     function updateFilterCount() {
+        const form = getActiveForm();
         if (!form) return;
         const countEl = document.querySelector('.acf-filter-count');
         if (!countEl) return;
         const checked  = form.querySelectorAll('input:checked').length;
-        const selected = form.querySelectorAll('select option:checked:not([value=""])').length;
-        const total    = checked + selected;
+        const total    = checked;
         countEl.textContent = total;
         countEl.classList.toggle('has-filters', total > 0);
     }
 
-    // ─── AJAX FILTER ──────────────────────────────────────────
-    if (!form || !results) return;
+    // ─── AKTIV FORM ───────────────────────────────────────────
+    function getActiveForm() {
+        const forms = document.querySelectorAll('[data-filter-form]');
+        for (const f of forms) {
+            if (f.offsetParent !== null) return f;
+        }
+        return forms[0] || null;
+    }
 
-    const atts        = results.dataset.atts ? JSON.parse(results.dataset.atts) : {};
-    const currentLang = results.dataset.lang || '';
-
+    // ─── AJAX ─────────────────────────────────────────────────
     function update(paged = 1) {
 
         const form = getActiveForm();
@@ -116,21 +106,25 @@ document.addEventListener('DOMContentLoaded', function () {
             results.innerHTML = html;
             results.classList.remove('is-loading');
             updateFilterCount();
-
-            results.querySelectorAll('.acf-pagination .page-numbers').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    if (!this.href) return;
-                    e.preventDefault();
-                    const url     = new URL(this.href);
-                    const pageNum = url.searchParams.get('paged') || 1;
-                    update(pageNum);
-                    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
+            bindPagination();
         })
         .catch(err => {
             console.error('Filter feil:', err);
             results.classList.remove('is-loading');
+        });
+    }
+
+    // ─── PAGINERING ───────────────────────────────────────────
+    function bindPagination() {
+        results.querySelectorAll('.acf-pagination .page-numbers[data-page]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const page = parseInt(this.dataset.page);
+                if (!isNaN(page)) {
+                    update(page);
+                    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
         });
     }
 
@@ -139,26 +133,16 @@ document.addEventListener('DOMContentLoaded', function () {
         f.addEventListener('change', () => {
             updateFilterCount();
             if (!f.closest('.acf-filter--offcanvas')) {
-                update();
+                update(1); // Alltid tilbake til side 1 ved ny filtrering
             }
         });
 
         f.addEventListener('reset', () => {
-            setTimeout(() => { updateFilterCount(); update(); }, 10);
+            setTimeout(() => { updateFilterCount(); update(1); }, 10);
         });
     });
 
-
-    // form.addEventListener('change', () => {
-    //     updateFilterCount();
-    //     if (!form.closest('.acf-filter--offcanvas')) {
-    //         update();
-    //     }
-    // });
-
-    // form.addEventListener('reset', () => {
-    //     setTimeout(() => { updateFilterCount(); update(); }, 10);
-    // });
-
+    // Bind paginering på initial load (ikke-AJAX)
+    bindPagination();
     updateFilterCount();
 });

@@ -47,9 +47,10 @@ class ACF_Filter_Ajax {
             array_map('trim', explode(',', $atts['acf_taxonomies']))
         );
 
-        $args         = ACF_Filter_Query::build($current_lang);
-        $query        = new WP_Query($args);
-        $paged        = isset($_POST['paged']) ? (int) $_POST['paged'] : 1;
+        $paged         = isset($_POST['paged']) ? (int) $_POST['paged'] : 1;
+        $args = ACF_Filter_Query::build($current_lang, $atts['posts_per_page']);
+        $args['paged'] = $paged;
+        $query         = new WP_Query($args);
 
         if ($query->have_posts()) {
 
@@ -63,14 +64,7 @@ class ACF_Filter_Ajax {
             echo '</div>';
 
             if ($atts['show_pagination'] === 'yes') {
-                echo '<div class="acf-pagination">';
-                echo paginate_links([
-                    'total'     => $query->max_num_pages,
-                    'current'   => $paged,
-                    'prev_text' => $atts['prev_text'],
-                    'next_text' => $atts['next_text'],
-                ]);
-                echo '</div>';
+                echo ACF_Filter_Render::render_pagination($query->max_num_pages, $paged, $atts);
             }
 
             wp_reset_postdata();

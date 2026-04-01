@@ -245,12 +245,7 @@ class ACF_Filter_Render {
 
                 <?php if ($atts['show_pagination'] === 'yes'): ?>
                     <div class="acf-pagination">
-                        <?= paginate_links([
-                            'total'     => $query->max_num_pages,
-                            'current'   => $paged,
-                            'prev_text' => $atts['prev_text'],
-                            'next_text' => $atts['next_text'],
-                        ]) ?>
+                        <?= self::render_pagination($query->max_num_pages, $paged, $atts) ?>
                     </div>
                 <?php endif; ?>
 
@@ -355,6 +350,44 @@ class ACF_Filter_Render {
             </div>
         </article>
 
+        <?php
+        return ob_get_clean();
+    }
+
+    public static function render_pagination($total_pages, $current_page, $atts) {
+
+        if ($total_pages <= 1) return '';
+
+        ob_start(); ?>
+        <div class="acf-pagination">
+            <?php if ($current_page > 1): ?>
+                <a href="#" class="page-numbers prev" data-page="<?= $current_page - 1 ?>">
+                    <?= esc_html($atts['prev_text']) ?>
+                </a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $total_pages; $i++):
+                if (
+                    $i === 1
+                    || $i === $total_pages
+                    || abs($i - $current_page) <= 2
+                ): ?>
+                    <a href="#"
+                    class="page-numbers <?= $i === (int) $current_page ? 'current' : '' ?>"
+                    data-page="<?= $i ?>">
+                        <?= $i ?>
+                    </a>
+                <?php elseif (abs($i - $current_page) === 3): ?>
+                    <span class="page-numbers dots">…</span>
+                <?php endif;
+            endfor; ?>
+
+            <?php if ($current_page < $total_pages): ?>
+                <a href="#" class="page-numbers next" data-page="<?= $current_page + 1 ?>">
+                    <?= esc_html($atts['next_text']) ?>
+                </a>
+            <?php endif; ?>
+        </div>
         <?php
         return ob_get_clean();
     }
